@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Login from "./components/account/Login";
 
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
+    <div style={{ marginTop: 64 }}>
+      <Login />
+    </div>
+  );
+};
 
-export default App
+export default App;
