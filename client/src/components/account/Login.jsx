@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
+import { API } from "../../services/api";
 
 const Component = styled(Box)`
   width: 400px;
@@ -44,24 +45,43 @@ const Text = styled(Typography)`
   color: #878787;
   font-size: 16px;
 `;
+const Error = styled(Typography)`
+  font-size: 10px;
+  color: #ff6161;
+  line-height: 0;
+  margin-top: 10px;
+  font-weight: 600;
+`;
 
 const signupInitialValues = {
-  name: '',
-  username: '',
-  password: '',
-}
+  name: "",
+  username: "",
+  password: "",
+};
 const Login = () => {
   const imageURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
 
   const [account, setAccount] = useState("login");
   const [signup, setSignup] = useState(signupInitialValues);
+  const [error, setError] = useState("");
 
   const toggleSignup = () => {
     account === "signup" ? setAccount("login") : setAccount("signup");
   };
   const onInputChange = (e) => {
-   setSignup({...signup, [e.target.name]: e.target.value});
+    setSignup({ ...signup, [e.target.name]: e.target.value });
+  };
+
+  const signupUser = async () => {
+    let response = await API.userSignup(signup);
+    if (response.isSuccess) {
+      setError("");
+      setSignup(signupInitialValues);
+      setAccount("login");
+    } else {
+      setError("Something went wrong please try again later");
+    }
   };
   return (
     <Component>
@@ -71,6 +91,7 @@ const Login = () => {
           <Wrapper>
             <TextField label="Enter username" variant="standard" />
             <TextField label="Enter password" variant="standard" />
+            {error && <Error>{error}</Error>}
             <LoginButton variant="contained">Login</LoginButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <SignupButton onClick={() => toggleSignup()} variant="text">
@@ -97,7 +118,8 @@ const Login = () => {
               label="Enter Password"
               variant="standard"
             />
-            <SignupButton>Signup</SignupButton>
+            {error && <Error>{error}</Error>}
+            <SignupButton onClick={() => signupUser()}>Signup</SignupButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <LoginButton onClick={() => toggleSignup()} variant="contained">
               Already have an account
