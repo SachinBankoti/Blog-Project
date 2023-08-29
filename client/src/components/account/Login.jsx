@@ -58,12 +58,19 @@ const signupInitialValues = {
   username: "",
   password: "",
 };
+
+const loginInitialValues = {
+  username: '',
+  password: '',
+}
+
 const Login = () => {
   const imageURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
 
   const [account, setAccount] = useState("login");
   const [signup, setSignup] = useState(signupInitialValues);
+  const[login, setLogin] = useState(loginInitialValues);
   const [error, setError] = useState("");
 
   const toggleSignup = () => {
@@ -83,16 +90,27 @@ const Login = () => {
       setError("Something went wrong please try again later");
     }
   };
+const onValueChange =(e)=>{
+  setLogin({ ...login, [e.target.name]: e.target.value });
+}
+const loginUser=()=>{
+  let response = API.userLogin(login);
+  if(response.isSuccess){
+    setError('');
+  }else{
+    setError('Please try again later')
+  }
+}
   return (
     <Component>
       <Box>
         <Image src={imageURL} alt="login" />
         {account === "login" ? (
           <Wrapper>
-            <TextField label="Enter username" variant="standard" />
-            <TextField label="Enter password" variant="standard" />
+            <TextField label="Enter username" value={login.username} onChange={(e)=>onValueChange(e)} name="username" variant="standard" />
+            <TextField label="Enter password" value={login.password} onChange={(e)=>onValueChange(e)} name="password" variant="standard" />
             {error && <Error>{error}</Error>}
-            <LoginButton variant="contained">Login</LoginButton>
+            <LoginButton onClick={()=>loginUser()} variant="contained">Login</LoginButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <SignupButton onClick={() => toggleSignup()} variant="text">
               Create an account
