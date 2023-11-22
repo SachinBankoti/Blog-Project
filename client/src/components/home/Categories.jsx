@@ -29,10 +29,10 @@ const StyledLink = styled(Link)`
 const Categories = () => {
   const [searchParams] = useSearchParams();
 
-  const category = searchParams.get("categary");
+  const category = searchParams.get("category");
   return (
     <Box>
-      <StyledLink to={`/create?category-${category || ""}`}>
+      <StyledLink to={`/create?category=${category || ""}`}>
         <StyledButton variant="contained">Create Blog</StyledButton>
       </StyledLink>
       <StyledTable>
@@ -47,7 +47,7 @@ const Categories = () => {
           {categories.map((category) => (
             <TableRow key={category.id}>
               <TableCell>
-                <StyledLink to={`/?category-${category.type}`}>{category.type}</StyledLink>
+                <StyledLink to={`/?category=${category.type}`}>{category.type}</StyledLink>
               </TableCell>
             </TableRow>
           ))}

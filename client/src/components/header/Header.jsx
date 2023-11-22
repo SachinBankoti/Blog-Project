@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, styled } from "@mui/material";
 import { Link } from "react-router-dom";
+
 const Component = styled(AppBar)`
   background: #ffffff;
   color: #000;
@@ -21,7 +22,7 @@ const Header = () => {
         <Link to="/">HOME</Link>
         <Link to="/about">ABOUT</Link>
         <Link to="/contact">CONTACT</Link>
-        <Link to="./login">LOGOUT</Link>
+        <Link to="/login">LOGOUT</Link>
       </Container>
     </Component>
   );
